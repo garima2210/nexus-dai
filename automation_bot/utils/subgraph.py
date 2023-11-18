@@ -29,7 +29,7 @@ class Subgraph:
           """
         bridges = []
         for rollup in self.make_call(query)["data"]["bridges"]:
-            bridges.append({"owner":Web3.to_checksum_address(rollup["id"]),"bridgeAddress":Web3.to_checksum_address(rollup["bridgeContract"])})
+            bridges.append({"owner":Web3.to_checksum_address(rollup["id"]),"bridgeAddress":Web3.to_checksum_address(rollup["bridgeContract"]),"savingLimit":rollup["savingLimit"]})
         return bridges
 
     def get_cluster(self,cluster_id):

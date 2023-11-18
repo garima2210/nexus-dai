@@ -11,9 +11,10 @@ class BaseContract:
 
 
 class NexusContract(BaseContract):
+
     def rebalance_DAI(self, ownerAddress: ChecksumAddress):
         return self.contract.functions.rebalanceDAI(ownerAddress).build_transaction(
-            {"gasPrice": Web3.toWei("2", "gwei"), "gas": 1000000})
+            {"gasPrice": Web3.to_wei("2", "gwei"), "gas": 1000000})
 
 
 class sDAIBridge(BaseContract):
