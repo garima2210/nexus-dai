@@ -22,3 +22,4 @@ contracts/artifacts
 contracts/.env
 contracts/node_modules
 contracts/typechain
+subgraph/nexus-sdai/node_modules

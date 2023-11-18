@@ -14,7 +14,7 @@ interface IERC20{
 
 abstract contract sDAIBridge {
 
-    address public constant Nexus=0x43db157AcF2AB56BcE0AA0da669927f6A3a84563;
+    address public Nexus=0x43db157AcF2AB56BcE0AA0da669927f6A3a84563;
     address public constant sDAI=0xD8134205b0328F5676aaeFb3B2a0DC15f4029d8C;
     address public constant DAO=0x14630e0428B9BbA12896402257fa09035f9F7447;
     address public constant DAI=0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844;
@@ -38,6 +38,7 @@ abstract contract sDAIBridge {
 
     function initiateSavings(uint256 savingLimit) external onlyNexus{
         uint256 amountSave = (savingLimit*IERC20(DAI).balanceOf(address(this)))/BASIS_POINT;
+        IERC20(DAI).approve(sDAI, amountSave);
         ISavingsDai(sDAI).deposit(amountSave, address(this));
         DAIDeposited = amountSave;
         emit SavingsStarted(amountSave);
@@ -61,8 +62,9 @@ abstract contract sDAIBridge {
         }
     }
 
-    function claimRewardDas() external onlyDAO {
+    function claimRewards() external onlyDAO {
         uint256 rewards = ISavingsDai(sDAI).maxWithdraw(address(this)) - DAIDeposited;
+        DAIRedeemed+=rewards;
         ISavingsDai(sDAI).withdraw(rewards, DAO, address(this));
     }
 }

@@ -10,6 +10,7 @@ contract Nexus {
     mapping(address=>Bridge) public integratedBridges;
     event BridgeRegistered(string name, uint256 savingLimit, address bridgeContract, address owner);
     event SavingLimitChaged(address owner, uint256 newLimit);
+    event TotalRewardsClaimed(address owner,uint256 amount);
     error NotBot();
     error BridgeAlreadyIntegrated();
     error BridgeNotIntegrated();
@@ -40,6 +41,11 @@ contract Nexus {
 
     function rebalanceDAI(address ownerAddress)external onlybot(){
         sDAIBridge(integratedBridges[ownerAddress].bridgeContract).changeSavingDAI(integratedBridges[ownerAddress].savingLimit);
+    }
+
+    function claimRewards() external {
+        sDAIBridge(integratedBridges[msg.sender].bridgeContract).claimRewards();
+        emit TotalRewardsClaimed(msg.sender, sDAIBridge(integratedBridges[msg.sender].bridgeContract).DAIRedeemed());
     }
 
 }
