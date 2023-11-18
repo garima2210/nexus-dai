@@ -1,0 +1,8 @@
+{
+  "eth_rpc": "https://dawn-chaotic-sailboat.ethereum-goerli.quiknode.pro/2912c76ce4701f36e44e2123fc452162a08c265d/",
+  "contracts": {
+    "nexus": "0x4b3BF56a59E935C6296E84605e6676202348B98b",
+    "dai": "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844"
+  },
+  "subgraph_rpc": "https://api.studio.thegraph.com/query/58809/nexus-sdai/v0.0.2"
+}
