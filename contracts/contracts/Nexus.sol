@@ -2,14 +2,14 @@
 pragma solidity ^0.8.0;
 import {sDAIBridge} from "./sDAIBridge.sol";
 contract Nexus {
-    struct bridges{
+    struct Bridge{
         address bridgeContract;
         uint256 savingLimit;
     }
     address public immutable bot;
-    mapping(address=>bridges) public integratedBridges;
-    event BridgeRegistered(string name, uint256 SavingLimit, address BridgeContract, address owner);
-    event SavingLimitChaged(uint256 oldLimit, uint256 newLimit);
+    mapping(address=>Bridge) public integratedBridges;
+    event BridgeRegistered(string name, uint256 savingLimit, address bridgeContract, address owner);
+    event SavingLimitChaged(address owner, uint256 newLimit);
     error NotBot();
     error BridgeAlreadyIntegrated();
     error BridgeNotIntegrated();
@@ -24,17 +24,17 @@ contract Nexus {
         bot = botAddress;
     }
 
-    function registerBridge(string calldata name, uint256 savingLimit, address bridgeContract) external{
-        if(integratedBridges[msg.sender].bridgeContract!=address(0)) revert BridgeAlreadyIntegrated();
-        if(sDAIBridge(integratedBridges[msg.sender].bridgeContract).Nexus()!=address(this)) revert ChangesNotMade();
-        integratedBridges[msg.sender].bridgeContract = bridgeContract;
-        integratedBridges[msg.sender].savingLimit = savingLimit;
+    function registerBridge(string calldata name, uint256 savingLimit, address bridgeContract) external {
+        if(integratedBridges[msg.sender].savingLimit>0) revert BridgeAlreadyIntegrated();
+        if(sDAIBridge(bridgeContract).Nexus()!=address(this)) revert ChangesNotMade();
+        integratedBridges[msg.sender] = Bridge(bridgeContract,savingLimit);
+        sDAIBridge(bridgeContract).initiateSavings(savingLimit);
         emit BridgeRegistered(name,savingLimit,bridgeContract,msg.sender);
     }
 
     function changeSavingLimit(uint256 newsavingLimit) external {
-        if(integratedBridges[msg.sender].bridgeContract== address(0)) revert BridgeNotIntegrated();
-        emit SavingLimitChaged(integratedBridges[msg.sender].savingLimit,newsavingLimit);
+        if(integratedBridges[msg.sender].bridgeContract == address(0)) revert BridgeNotIntegrated();
+        emit SavingLimitChaged(msg.sender,newsavingLimit);
         integratedBridges[msg.sender].savingLimit = newsavingLimit;
     }
 
