@@ -30,7 +30,7 @@ def start_bot(config_file_path, priv_key):
     """
     config = read_file(config_file_path)
     eth_node = EthNode(config.eth_rpc, priv_key)
-    while:
+    while True:
         abi_dai = read_file(config.contracts.dai.abi, as_dict=True)["abi"]
         abi_nexus = read_file(config.contracts.nexus.abi, as_dict=True)["abi"]
         abi_bridge = read_file(config.contracts.bridge.abi, as_dict=True)["abi"]

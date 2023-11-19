@@ -14,7 +14,7 @@ interface IERC20{
 
 abstract contract sDAIBridge {
 
-    address public Nexus=0x43db157AcF2AB56BcE0AA0da669927f6A3a84563;
+    address public Nexus=0x4b3BF56a59E935C6296E84605e6676202348B98b;
     address public constant sDAI=0xD8134205b0328F5676aaeFb3B2a0DC15f4029d8C;
     address public constant DAO=0x14630e0428B9BbA12896402257fa09035f9F7447;
     address public constant DAI=0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844;
