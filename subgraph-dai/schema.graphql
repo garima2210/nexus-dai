@@ -1,0 +1,14 @@
+type Bridge @entity(immutable: false) {
+  id: Bytes!
+  name: String! # string
+  savingLimit: BigInt! # uint256
+  bridgeContract: Bytes! # address
+  rewardsEarned: BigInt! # uint256
+}
+
+type SavingLimitChaged @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  oldLimit: BigInt! # uint256
+  newLimit: BigInt! # uint256
+}

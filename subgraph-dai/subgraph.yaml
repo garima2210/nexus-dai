@@ -1,0 +1,29 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Nexus
+    network: goerli
+    source:
+      address: "0x4b3BF56a59E935C6296E84605e6676202348B98b"
+      abi: Nexus
+      startBlock: 10065935
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Bridges
+        - SavingLimitChaged
+      abis:
+        - name: Nexus
+          file: ./abis/Nexus.json
+      eventHandlers:
+        - event: BridgeRegistered(string,uint256,address,address)
+          handler: handleBridgeRegistered
+        - event: SavingLimitChaged(address,uint256)
+          handler: handleSavingLimitChaged
+        - event: TotalRewardsClaimed(address,uint256)
+          handler: handleTotalRewardsClaimed
+      file: ./src/nexus.ts
